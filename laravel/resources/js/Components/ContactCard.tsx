@@ -1,22 +1,29 @@
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Badge } from '@/components/ui/badge'
 import { Contact } from '@/types/contact'
 import React from 'react'
 
-export const ContactCard = ({ contact }: { contact: Contact }) => {
+export const ContactCard = ({ contact, onClick }: { contact: Contact, onClick(): void }) => {
   return (
-    <div className='m-4 flex justify-between'>
+    <div className='m-4 flex justify-between' onClick={onClick}>
       <div className='flex items-center gap-4'>
-        <div className='w-12 h-12 bg-gray-300 rounded-full'></div>
+        <Avatar>
+          <AvatarImage src={contact.avatar} />
+          <AvatarFallback>
+            {contact.name.split(' ').map((name) => name[0]).join('')}
+          </AvatarFallback>
+        </Avatar>
+
         <div>
           <h3 className='text-lg font-bold'>{contact.name}</h3>
-          <p className='text-sm'>{contact.lastMessage}</p>
+          <p className='text-left text-sm'>{contact.lastMessage}</p>
         </div>
       </div>
       <div>
         <p className='text-sm'>{contact.lastMessageDate}</p>
         {contact.unreadMessages > 0 && (
           <div className='flex justify-end'>
-            <Badge className='bg-green-700 text-emerald-950 text-xs' variant='outline' >{contact.unreadMessages}</Badge>
+            <Badge className='bg-primary text-secondary text-xs border-0 rounded-full' variant='outline' >{contact.unreadMessages}</Badge>
           </div>
         )}
       </div>
